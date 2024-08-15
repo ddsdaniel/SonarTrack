@@ -17,7 +17,7 @@ namespace SonarTrack.Application.UseCases
             _analysisService = analysisService;
         }
 
-        public async Task Track()
+        public async Task TrackAsync()
         {
             await _monthlyDataPurgeService.PurgeAsync();
             var analises = await _analysisService.GetAnalysesAsync();

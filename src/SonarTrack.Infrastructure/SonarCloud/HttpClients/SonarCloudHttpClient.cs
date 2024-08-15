@@ -1,22 +1,28 @@
-﻿using Microsoft.Extensions.Options;
+﻿using AutoMapper;
+using Microsoft.Extensions.Options;
 using SonarTrack.Application.Abstractions.Infrastructure;
 using SonarTrack.Application.Dtos;
 using SonarTrack.Application.Dtos.Sonar;
 using SonarTrack.Application.Enums;
 using SonarTrack.Infrastructure.Abstractions;
+using SonarTrack.Infrastructure.SonarCloud.Dtos;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SonarTrack.Infrastructure.SonarCloud.HttpClients
 {
     public class SonarCloudHttpClient : RestHttpClient, ISonarHttpClient
     {
         private readonly IOptions<SonarOptions> _sonarOptions;
+        private readonly IMapper _mapper;
 
         public SonarCloudHttpClient(
             HttpClient httpClient,
-            IOptions<SonarOptions> sonarOptions
+            IOptions<SonarOptions> sonarOptions,
+            IMapper mapper
             ) : base(httpClient)
         {
             _sonarOptions = sonarOptions;
+            _mapper = mapper;
             SetAuthorization(sonarOptions.Value.Token);
         }
 
@@ -28,7 +34,17 @@ namespace SonarTrack.Infrastructure.SonarCloud.HttpClients
                 $"?organization={_sonarOptions.Value.Organization}" +
                 $"&ps={_sonarOptions.Value.PageSize}";
 
-            return await GetAsync<IEnumerable<ProjectDto>>(route);
+            var sonarResult = await GetAsync<ProjectsSearchSonarCloudDto>(route);
+
+            if (sonarResult.Success)
+            {
+                var projects = _mapper.Map<IEnumerable<ProjectDto>>(sonarResult.Value.Components);
+                return OperationResultDto<IEnumerable<ProjectDto>>.Ok(projects);
+            }
+            else
+            {
+                return OperationResultDto<IEnumerable<ProjectDto>>.Fail(sonarResult.Errors);
+            }
         }
 
         public async Task<OperationResultDto<QualityGateDto>> GetQualityGateAsync(ProjectDto project)

@@ -2,6 +2,6 @@
 {
     public interface ITrackerUseCase
     {
-        Task Track();
+        Task TrackAsync();
     }
 }
