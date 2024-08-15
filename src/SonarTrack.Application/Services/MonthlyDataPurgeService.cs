@@ -6,7 +6,8 @@ namespace SonarTrack.Application.Services
     {
         public Task PurgeAsync()
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
+            //throw new NotImplementedException();
         }
     }
 }

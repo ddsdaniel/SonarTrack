@@ -5,6 +5,7 @@ using SonarTrack.Application.Dtos;
 using SonarTrack.Application.Dtos.Sonar;
 using SonarTrack.Application.Enums;
 using SonarTrack.Infrastructure.Abstractions;
+using SonarTrack.Infrastructure.Extensions;
 using SonarTrack.Infrastructure.SonarCloud.Dtos;
 
 namespace SonarTrack.Infrastructure.SonarCloud.HttpClients
@@ -71,17 +72,33 @@ namespace SonarTrack.Infrastructure.SonarCloud.HttpClients
             IEnumerable<ProjectDto> projects,
             IEnumerable<MetricKey> metricKeys)
         {
-            var projectKeysParam = string.Join(',', projects.Select(p => p.Key));
+            const int MAX_PROJECTS = 100;
+
+            var allMeasures = new List<MeasureDto>();
 
             var metricKeysParam = string.Join(',', metricKeys);
 
-            var route = $"{_sonarOptions.Value.BaseUrl}" +
-                $"/measures" +
-                $"/search" +
-                $"&projectKeys={projectKeysParam}" +
-                $"&metricKeys={metricKeysParam}";
+            foreach (var batch in projects.Batch(MAX_PROJECTS))
+            {
+                var projectKeysParam = string.Join(',', batch.Select(p => p.Key));
 
-            return await GetAsync<IEnumerable<MeasureDto>>(route);
+                var route = $"{_sonarOptions.Value.BaseUrl}" +
+                    $"/measures" +
+                    $"/search" +
+                    $"?projectKeys={projectKeysParam}" +
+                    $"&metricKeys={metricKeysParam}";
+
+                var result = await GetAsync<MeasureSearchSonarCloudDto>(route);
+                if (result.Success)
+                {
+                    var measures = _mapper.Map<IEnumerable<MeasureDto>>(result.Value.Measures);
+                    allMeasures.AddRange(measures);
+                }
+                else
+                    OperationResultDto<IEnumerable<MeasureDto>>.Fail(result.Errors);
+            }
+
+            return OperationResultDto<IEnumerable<MeasureDto>>.Ok(allMeasures);
         }
     }
 }
