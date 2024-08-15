@@ -6,7 +6,6 @@ using SonarTrack.Application.Dtos.Sonar;
 using SonarTrack.Application.Enums;
 using SonarTrack.Infrastructure.Abstractions;
 using SonarTrack.Infrastructure.SonarCloud.Dtos;
-using System.Diagnostics.CodeAnalysis;
 
 namespace SonarTrack.Infrastructure.SonarCloud.HttpClients
 {
@@ -55,7 +54,17 @@ namespace SonarTrack.Infrastructure.SonarCloud.HttpClients
                 $"?organization={_sonarOptions.Value.Organization}" +
                 $"&project={project.Key}";
 
-            return await GetAsync<QualityGateDto>(route);
+            var sonarResult = await GetAsync<QualityGateGetByProjectSonarCloudDto>(route);
+
+            if (sonarResult.Success)
+            {
+                var qualityGate = _mapper.Map<QualityGateDto>(sonarResult.Value.QualityGate);
+                return OperationResultDto<QualityGateDto>.Ok(qualityGate);
+            }
+            else
+            {
+                return OperationResultDto<QualityGateDto>.Fail(sonarResult.Errors);
+            }
         }
 
         public async Task<OperationResultDto<IEnumerable<MeasureDto>>> GetMeasuresAsync(

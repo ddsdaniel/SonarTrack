@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using SonarTrack.Infrastructure.DependencyInjections;
-using System;
 using SonarTrack.Application.Abstractions.UseCases;
 
 var configuration = new ConfigurationBuilder()
