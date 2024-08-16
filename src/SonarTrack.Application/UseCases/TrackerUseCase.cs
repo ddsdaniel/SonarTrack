@@ -1,4 +1,5 @@
-﻿using SonarTrack.Application.Abstractions.Services;
+﻿using Microsoft.Extensions.Logging;
+using SonarTrack.Application.Abstractions.Services;
 using SonarTrack.Application.Abstractions.UseCases;
 
 namespace SonarTrack.Application.UseCases
@@ -7,20 +8,25 @@ namespace SonarTrack.Application.UseCases
     {
         private readonly IMonthlyDataPurgeService _monthlyDataPurgeService;
         private readonly IAnalysisService _analysisService;
+        private readonly ILogger<TrackerUseCase> _logger;
 
         public TrackerUseCase(
             IMonthlyDataPurgeService monthlyDataPurgeService,
-            IAnalysisService analysisService
+            IAnalysisService analysisService,
+            ILogger<TrackerUseCase> logger
             )
         {
             _monthlyDataPurgeService = monthlyDataPurgeService;
             _analysisService = analysisService;
+            _logger = logger;
         }
 
         public async Task TrackAsync()
         {
             await _monthlyDataPurgeService.PurgeAsync();
             var analises = await _analysisService.GetAnalysesAsync();
+
+            _logger.LogInformation("Finish");
         }
     }
 }

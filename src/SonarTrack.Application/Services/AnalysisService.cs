@@ -1,4 +1,5 @@
-﻿using SonarTrack.Application.Abstractions.Infrastructure;
+﻿using Microsoft.Extensions.Logging;
+using SonarTrack.Application.Abstractions.Infrastructure;
 using SonarTrack.Application.Abstractions.Services;
 using SonarTrack.Application.Dtos;
 using SonarTrack.Application.Dtos.Sonar;
@@ -11,14 +12,18 @@ namespace SonarTrack.Application.Services
     public class AnalysisService : IAnalysisService
     {
         private readonly ISonarHttpClient _sonarHttpClient;
+        private readonly ILogger<AnalysisService> _logger;
 
-        public AnalysisService(ISonarHttpClient sonarHttpClient)
+        public AnalysisService(ISonarHttpClient sonarHttpClient, ILogger<AnalysisService> logger)
         {
             _sonarHttpClient = sonarHttpClient;
+            _logger = logger;
         }
 
         public async Task<OperationResultDto<IEnumerable<Analysis>>> GetAnalysesAsync()
         {
+            _logger.LogInformation("GetProjectsAsync...");
+
             var projectsResult = await _sonarHttpClient.GetProjectsAsync();
 
             if (projectsResult.Success)
@@ -40,6 +45,8 @@ namespace SonarTrack.Application.Services
         private async Task<OperationResultDto<IEnumerable<Analysis>>> SetMeasuresAsync(IEnumerable<ProjectDto>? projects, List<Analysis> analises)
         {
             var allMetricKeys = Enum.GetValues(typeof(MetricKey)).Cast<MetricKey>();
+
+            _logger.LogInformation("GetMeasuresAsync...");
 
             var measuresResult = await _sonarHttpClient.GetMeasuresAsync(projects, allMetricKeys);
 
@@ -125,6 +132,8 @@ namespace SonarTrack.Application.Services
             foreach (var project in projects)
             {
                 var analisys = analises.FirstOrDefault(a => a.ProjectKey == project.Key);
+
+                _logger.LogInformation("GetQualityGateAsync: {Project}", project.Key);
 
                 var qualityGateResult = await _sonarHttpClient.GetQualityGateAsync(project);
 
