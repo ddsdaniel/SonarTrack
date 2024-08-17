@@ -1,11 +1,12 @@
 ﻿using SonarTrack.Domain.Abstractions.Domain;
+using SonarTrack.Domain.Extensions;
 
 namespace SonarTrack.Domain.Entities
 {
     public class Analysis : Entity
     {
         public string ProjectKey { get; set; } = string.Empty;
-        public DateTime AnalysisDate { get; set; }
+        public DateTime AnalysisDate { get; set; } = DateTime.Today.GetFirstDayOfMonth();
         public int CognitiveComplexity { get; set; }
         public int CyclomaticComplexity { get; set; }
         public char ReliabilityRating { get; set; }
