@@ -9,8 +9,9 @@ Log.Logger = new LoggerConfiguration()
             .Filter.ByExcluding(Matching.FromSource("System.Net.Http.HttpClient"))
             .CreateLogger();
 
+builder.Host.UseSerilog();
+
 // Add services to the container.
-builder.Services.AddLogging(builder => builder.AddSerilog());
 builder.Services.AddDependencyInjections(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
