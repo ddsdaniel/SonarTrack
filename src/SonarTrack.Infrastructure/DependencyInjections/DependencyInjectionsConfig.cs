@@ -12,6 +12,7 @@ namespace SonarTrack.Infrastructure.DependencyInjections
             services.AddHttpClientsConfig();
             services.AddOptionsConfig(configuration);
             services.AddAutoMapperConfig();
+            services.AddDataConfig(configuration);
             return services;
         }
     }

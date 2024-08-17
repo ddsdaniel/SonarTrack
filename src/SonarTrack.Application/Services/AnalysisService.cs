@@ -30,11 +30,11 @@ namespace SonarTrack.Application.Services
             {
                 var projects = projectsResult.Value ?? [];
 
-                var analises = InitializeAnalises(projects);
+                var analyses = InitializeAnalyses(projects);
 
-                await SetQualityGateAsync(projects, analises);
+                await SetQualityGateAsync(projects, analyses);
 
-                return await SetMeasuresAsync(projects, analises);
+                return await SetMeasuresAsync(projects, analyses);
             }
             else
             {
@@ -42,7 +42,7 @@ namespace SonarTrack.Application.Services
             }
         }
 
-        private async Task<OperationResultDto<IEnumerable<Analysis>>> SetMeasuresAsync(IEnumerable<ProjectDto>? projects, List<Analysis> analises)
+        private async Task<OperationResultDto<IEnumerable<Analysis>>> SetMeasuresAsync(IEnumerable<ProjectDto>? projects, List<Analysis> analyses)
         {
             var allMetricKeys = Enum.GetValues(typeof(MetricKey)).Cast<MetricKey>();
 
@@ -56,11 +56,11 @@ namespace SonarTrack.Application.Services
 
                 foreach (var measure in measures)
                 {
-                    var analisys = analises.FirstOrDefault(a => a.ProjectKey == measure.Component);
-                    SetMetric(measure, analisys);
+                    var analysis = analyses.FirstOrDefault(a => a.ProjectKey == measure.Component);
+                    SetMetric(measure, analysis);
                 }
 
-                return OperationResultDto<IEnumerable<Analysis>>.Ok(analises);
+                return OperationResultDto<IEnumerable<Analysis>>.Ok(analyses);
             }
             else
             {
@@ -68,18 +68,18 @@ namespace SonarTrack.Application.Services
             }
         }
 
-        private List<Analysis> InitializeAnalises(IEnumerable<ProjectDto> projects)
+        private List<Analysis> InitializeAnalyses(IEnumerable<ProjectDto> projects)
         {
-            var analises = new List<Analysis>();
+            var analyses = new List<Analysis>();
             foreach (var project in projects)
             {
-                var analisys = new Analysis { ProjectKey = project.Key };
-                analises.Add(analisys);
+                var analysis = new Analysis { ProjectKey = project.Key };
+                analyses.Add(analysis);
             }
-            return analises;
+            return analyses;
         }
 
-        private void SetMetric(MeasureDto measure, Analysis analisys)
+        private void SetMetric(MeasureDto measure, Analysis analysis)
         {
             if (measure.Metric.TryGetEnum(out MetricKey metricKey))
             {
@@ -88,38 +88,38 @@ namespace SonarTrack.Application.Services
                     case MetricKey.alert_status:
                         break;
                     case MetricKey.bugs:
-                        analisys.Bugs = int.Parse(measure.Value);
+                        analysis.Bugs = int.Parse(measure.Value);
                         break;
                     case MetricKey.reliability_rating:
                         break;
                     case MetricKey.vulnerabilities:
-                        analisys.Vulnerabilities = int.Parse(measure.Value);
+                        analysis.Vulnerabilities = int.Parse(measure.Value);
                         break;
                     case MetricKey.security_rating:
-                        analisys.SecurityRating = measure.Value[0];
+                        analysis.SecurityRating = measure.Value[0];
                         break;
                     case MetricKey.security_hotspots_reviewed:
                         break;
                     case MetricKey.security_review_rating:
                         break;
                     case MetricKey.code_smells:
-                        analisys.CodeSmells = int.Parse(measure.Value);
+                        analysis.CodeSmells = int.Parse(measure.Value);
                         break;
                     case MetricKey.sqale_rating:
                         break;
                     case MetricKey.duplicated_lines_density:
-                        analisys.DuplicatedLinesDensity = decimal.Parse(measure.Value);
+                        analysis.DuplicatedLinesDensity = decimal.Parse(measure.Value);
                         break;
                     case MetricKey.coverage:
-                        analisys.Coverage = decimal.Parse(measure.Value);
+                        analysis.Coverage = decimal.Parse(measure.Value);
                         break;
                     case MetricKey.ncloc:
-                        analisys.NonCommentingLinesOfCode = int.Parse(measure.Value);
+                        analysis.NonCommentingLinesOfCode = int.Parse(measure.Value);
                         break;
                     case MetricKey.ncloc_language_distribution:
                         break;
                     case MetricKey.maintainability:
-                        analisys.MaintainabilityRating = measure.Value[0];
+                        analysis.MaintainabilityRating = measure.Value[0];
                         break;
                     default:
                         break;
@@ -127,11 +127,11 @@ namespace SonarTrack.Application.Services
             }
         }
 
-        private async Task SetQualityGateAsync(IEnumerable<ProjectDto>? projects, List<Analysis> analises)
+        private async Task SetQualityGateAsync(IEnumerable<ProjectDto>? projects, List<Analysis> analyses)
         {
             foreach (var project in projects)
             {
-                var analisys = analises.FirstOrDefault(a => a.ProjectKey == project.Key);
+                var analysis = analyses.FirstOrDefault(a => a.ProjectKey == project.Key);
 
                 _logger.LogInformation("GetQualityGateAsync: {Project}", project.Key);
 
@@ -139,7 +139,7 @@ namespace SonarTrack.Application.Services
 
                 if (qualityGateResult.Success)
                 {
-                    analisys.QualityGate = qualityGateResult.Value.Name;
+                    analysis.QualityGate = qualityGateResult.Value.Name;
                 }
             }
         }
