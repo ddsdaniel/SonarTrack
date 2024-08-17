@@ -62,8 +62,7 @@ namespace SonarTrack.Infrastructure.Data.TypeConfigurations
                    .IsRequired();
 
             builder.Property(x => x.QualityGate)
-                   .HasMaxLength(64)
-                   .IsRequired();
+                   .HasMaxLength(64);
         }
     }
 }

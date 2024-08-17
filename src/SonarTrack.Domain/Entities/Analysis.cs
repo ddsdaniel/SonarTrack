@@ -19,6 +19,6 @@ namespace SonarTrack.Domain.Entities
         public int OpenIssues { get; set; }
         public char MaintainabilityRating { get; set; }
         public decimal EffortToFixTechnicalDebt { get; set; }
-        public string QualityGate { get; set; }
+        public string? QualityGate { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SonarTrack.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using SonarTrack.Infrastructure.Data;
 namespace SonarTrack.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(SonarTrackDbContext))]
-    partial class SonarTrackDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240817191239_QualityGateNull")]
+    partial class QualityGateNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

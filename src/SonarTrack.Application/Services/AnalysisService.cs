@@ -71,9 +71,10 @@ namespace SonarTrack.Application.Services
         private List<Analysis> InitializeAnalyses(IEnumerable<ProjectDto> projects)
         {
             var analyses = new List<Analysis>();
+            var thisMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1, 0, 0, 0, DateTimeKind.Local);
             foreach (var project in projects)
             {
-                var analysis = new Analysis { ProjectKey = project.Key };
+                var analysis = new Analysis { ProjectKey = project.Key, AnalysisDate = thisMonth };
                 analyses.Add(analysis);
             }
             return analyses;
