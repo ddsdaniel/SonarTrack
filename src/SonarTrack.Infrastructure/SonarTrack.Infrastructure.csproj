@@ -23,4 +23,8 @@
 	  <ProjectReference Include="..\SonarTrack.Domain\SonarTrack.Domain.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Data\Migrations\" />
+	</ItemGroup>
+
 </Project>

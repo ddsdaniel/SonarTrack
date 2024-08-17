@@ -41,12 +41,14 @@ namespace SonarTrack.Infrastructure.Data.TypeConfigurations
                    .IsRequired();
 
             builder.Property(x => x.Coverage)
+                   .HasColumnType("money")
                    .IsRequired();
 
             builder.Property(x => x.NonCommentingLinesOfCode)
                    .IsRequired();
 
             builder.Property(x => x.DuplicatedLinesDensity)
+                   .HasColumnType("money")
                    .IsRequired();
 
             builder.Property(x => x.OpenIssues)
@@ -56,9 +58,11 @@ namespace SonarTrack.Infrastructure.Data.TypeConfigurations
                    .IsRequired();
 
             builder.Property(x => x.EffortToFixTechnicalDebt)
+                   .HasColumnType("money")
                    .IsRequired();
 
             builder.Property(x => x.QualityGate)
+                   .HasMaxLength(64)
                    .IsRequired();
         }
     }

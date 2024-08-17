@@ -4,14 +4,9 @@ using System.Reflection;
 
 namespace SonarTrack.Infrastructure.Data
 {
-    public class SonarTrackDbContext : DbContext
+    public class SonarTrackDbContext(DbContextOptions<SonarTrackDbContext> options) : DbContext(options)
     {
         public DbSet<Analysis> Analyses { get; set; }
-        
-        public SonarTrackDbContext(DbContextOptions<SonarTrackDbContext> options)
-            : base(options)
-        {
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

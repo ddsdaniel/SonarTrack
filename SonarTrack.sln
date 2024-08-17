@@ -3,13 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonarTrack.Console", "src\SonarTrack.Console\SonarTrack.Console.csproj", "{AE682894-0C83-43E8-821E-A0C350962D99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SonarTrack.Application", "src\SonarTrack.Application\SonarTrack.Application.csproj", "{B557F4B4-80D1-4480-9D2E-42DCCB25A7B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonarTrack.Application", "src\SonarTrack.Application\SonarTrack.Application.csproj", "{B557F4B4-80D1-4480-9D2E-42DCCB25A7B7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonarTrack.Domain", "src\SonarTrack.Domain\SonarTrack.Domain.csproj", "{6DDE0935-39EA-46D7-94DD-855BD06F296E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Console", "01 - Console", "{A676EB71-5D3C-4B90-99D8-4379AEEE3DD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SonarTrack.Domain", "src\SonarTrack.Domain\SonarTrack.Domain.csproj", "{6DDE0935-39EA-46D7-94DD-855BD06F296E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Application", "02 - Application", "{C2514D12-C20C-4077-8BB0-603F77152995}"
 EndProject
@@ -17,7 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Domain", "03 - Domain"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Infrastructure", "04 - Infrastructure", "{625953D7-B223-4E92-A356-77EFF9EBA2CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonarTrack.Infrastructure", "src\SonarTrack.Infrastructure\SonarTrack.Infrastructure.csproj", "{54C53E82-289B-4F2D-8535-DC4361409F94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SonarTrack.Infrastructure", "src\SonarTrack.Infrastructure\SonarTrack.Infrastructure.csproj", "{54C53E82-289B-4F2D-8535-DC4361409F94}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - API", "01 - API", "{AFA4109F-A7D1-4BAD-B7D1-3D426300C988}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonarTrack.WebApi", "src\SonarTrack.WebApi\SonarTrack.WebApi.csproj", "{88E8B014-8467-4723-84D2-53D7CCA52356}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AE682894-0C83-43E8-821E-A0C350962D99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE682894-0C83-43E8-821E-A0C350962D99}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE682894-0C83-43E8-821E-A0C350962D99}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE682894-0C83-43E8-821E-A0C350962D99}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B557F4B4-80D1-4480-9D2E-42DCCB25A7B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B557F4B4-80D1-4480-9D2E-42DCCB25A7B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B557F4B4-80D1-4480-9D2E-42DCCB25A7B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,15 +37,19 @@ Global
 		{54C53E82-289B-4F2D-8535-DC4361409F94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54C53E82-289B-4F2D-8535-DC4361409F94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54C53E82-289B-4F2D-8535-DC4361409F94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88E8B014-8467-4723-84D2-53D7CCA52356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88E8B014-8467-4723-84D2-53D7CCA52356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88E8B014-8467-4723-84D2-53D7CCA52356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88E8B014-8467-4723-84D2-53D7CCA52356}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{AE682894-0C83-43E8-821E-A0C350962D99} = {A676EB71-5D3C-4B90-99D8-4379AEEE3DD5}
 		{B557F4B4-80D1-4480-9D2E-42DCCB25A7B7} = {C2514D12-C20C-4077-8BB0-603F77152995}
 		{6DDE0935-39EA-46D7-94DD-855BD06F296E} = {7ED26030-3AF4-4156-AB15-FF1EE3E92360}
 		{54C53E82-289B-4F2D-8535-DC4361409F94} = {625953D7-B223-4E92-A356-77EFF9EBA2CB}
+		{88E8B014-8467-4723-84D2-53D7CCA52356} = {AFA4109F-A7D1-4BAD-B7D1-3D426300C988}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B382AAE8-2E51-4506-AEF3-77FD0E1C317B}
