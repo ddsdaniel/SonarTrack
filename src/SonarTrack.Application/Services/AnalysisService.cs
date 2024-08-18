@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using SonarTrack.Application.Abstractions.Adapters;
+﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using SonarTrack.Application.Abstractions.Infrastructure;
 using SonarTrack.Application.Abstractions.Mappers;
 using SonarTrack.Application.Abstractions.Services;
@@ -14,13 +14,13 @@ namespace SonarTrack.Application.Services
         ISonarHttpClient sonarHttpClient, 
         ILogger<AnalysisService> logger,
         IMeasureToAnalysisMapper measureToAnalysisMapper,
-        IProjectToAnalysisAdapter projectToAnalysisAdapter
+        IMapper mapper
         ) : IAnalysisService
     {
         private readonly ISonarHttpClient _sonarHttpClient = sonarHttpClient;
         private readonly ILogger<AnalysisService> _logger = logger;
         private readonly IMeasureToAnalysisMapper _measureToAnalysisMapper = measureToAnalysisMapper;
-        private readonly IProjectToAnalysisAdapter _projectToAnalysisAdapter = projectToAnalysisAdapter;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<OperationResultDto<IEnumerable<Analysis>>> GetAnalysesAsync()
         {
@@ -32,7 +32,7 @@ namespace SonarTrack.Application.Services
             {
                 var projects = projectsResult.Value ?? [];
 
-                var analyses = _projectToAnalysisAdapter.Adapt(projects);
+                var analyses = _mapper.Map<IEnumerable<Analysis>>(projects);
 
                 await SetQualityGateAsync(projects, analyses);
 

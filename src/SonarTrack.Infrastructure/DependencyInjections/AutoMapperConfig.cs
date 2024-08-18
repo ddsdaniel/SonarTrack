@@ -13,9 +13,7 @@ namespace SonarTrack.Infrastructure.DependencyInjections
                 {
                     cfg.ConstructServicesUsing(type => ActivatorUtilities.CreateInstance(provider, type));
 
-                    cfg.AddMaps(
-                        "SonarTrack.Infrastructure"
-                        );
+                    cfg.AddMaps("SonarTrack.Infrastructure", "SonarTrack.Application");
                 });
 
                 return mapperConfiguration.CreateMapper();
